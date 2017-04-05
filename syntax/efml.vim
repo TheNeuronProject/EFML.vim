@@ -14,7 +14,7 @@ syntax match efAttrDataString /\m\(^\s*[#%][^=]\+=\s*{{[^=]\+=\s*\)\@<=.*\(}}\s*
 syntax match efAttrData /\m\(^\s*[#%][^=]\+=\s*\)\@<={{.\+}}\s*$/ contained contains=efAttrDataString
 syntax match efAttrString /\m\(^\s*[#%][^=]\+=\s*\)\@<=.\+$/ contains=efAttrData,efEscapeLineString
 syntax match efTagAlias /\m\(^\s*>[^#]\+\)\@<=#.*$/
-syntax match efTagClassString /\m\(^\s*>[^.#]\+\.{{[^#=]\+=\s*\)\@<=[^#]*\(}}\)\@=/ contained contains=efEscapeData
+syntax match efTagClassString /\m\(^\s*>[^.#]\+\.{{[^#=]\+=\s*\)\@<=[^#]*\(}}\)\@=/ contained contains=efEscapeTagData
 syntax match efTagClassData /\m\(^\s*>[^.#]\+\.\)\@<={{[^#]\{-0,}}}\(\(#.*\)\?$\)\@=/ contained contains=efTagClassString
 syntax match efTagClass /\m\(^\s*>[^#]\+\)\@<=\(\.[^#]\+\)\+/ contains=efTagClassData
 syntax match efTag /\m\(^\s*\)\@<=>[^.#]\+\(.*$\)\@=/
@@ -36,6 +36,7 @@ syntax match efEscapeString /\m\(^.*{{\([^}]\|}[^}]\)*{\?\(&&\)*\)\@<=&{\({\)\@=
 syntax match efEscapeString /\m\(^.*{{\([^{]\|{[^{]\)*{\?}}\([^{]\|{[^{]\)*{\?\(&&\)*\)\@<=&}\(}\)\@=/ contained
 syntax match efEscapeString /\m\(^\([^{]\|{[^{]\)*{\?\(&&\)*\)\@<=&}\(}\)\@=/ contained
 syntax match efEscapeLineString /\m&u[0-9a-f]\{4}\|&x[0-9a-f]\{2}\|&[^ux]/ contained
+syntax match efEscapeTagData /\m&u[0-9a-f]\{4}\|&x[0-9a-f]\{2}\|&[^ux}]\|&}\(}\s*$\|}\s*#\)\@!/ contained
 syntax match efEscapeData /\m&u[0-9a-f]\{4}\|&x[0-9a-f]\{2}\|&[^ux}]\|&}\(}\s*$\)\@!/ contained
 
 highlight def link efDataString String
