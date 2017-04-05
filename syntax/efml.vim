@@ -62,6 +62,7 @@ highlight def link efString String
 highlight def link efComment Comment
 highlight def link efEscapeString Statement
 highlight def link efEscapeLineString Statement
+highlight def link efEscapeTagData Statement
 highlight def link efEscapeData Statement
 
 let b:current_syntax = "efml"
