@@ -29,15 +29,15 @@ syntax match efEventString /\m\(^\s*@[^=]\+=\s*[^:]\+:\s*\)\@<=.\+$/ contains=ef
 syntax match efEvent /\m\(^\s*\)\@<=@[^=]\+\(.*$\)\@=/
 syntax match efString /\m\(^\s*\)\@<=[\.].*$/ contains=efData,efEscapeString
 syntax match efComment /\m\(^\s*\)\@<=[^\t \.\-+>#%@].*$/
-syntax match efEscapeString /\m&u[0-9a-f]\{4}\|&x[0-9a-f]\{2}\|&[^ux{}]\|&{\([^{]\|$\)\@=\|&}\([^}]\|$\)\@=/ contained
+syntax match efEscapeString /\m&u[0-9a-fA-F]\{4}\|&x[0-9a-fA-F]\{2}\|&u\[[0-9a-fA-F]\{-0,}\]\|&[^ux{}]\|&{\([^{]\|$\)\@=\|&}\([^}]\|$\)\@=/ contained
 syntax match efEscapeString /\m\(^.*{{\([^{]\|{[^{]\)*{\?}}\([^{]\|{[^{]\)*{\?\(&&\)*\)\@<=&{\({\([^}]\|}[^}]\)*{\?$\)\@=/ contained
 syntax match efEscapeString /\m\(^\([^{]\|{[^{]\)*{\?\(&&\)*\)\@<=&{\({\([^}]\|}[^}]\)*{\?$\)\@=/ contained
 syntax match efEscapeString /\m\(^.*{{\([^}]\|}[^}]\)*{\?\(&&\)*\)\@<=&{\({\)\@=/ contained
 syntax match efEscapeString /\m\(^.*{{\([^{]\|{[^{]\)*{\?}}\([^{]\|{[^{]\)*{\?\(&&\)*\)\@<=&}\(}\)\@=/ contained
 syntax match efEscapeString /\m\(^\([^{]\|{[^{]\)*{\?\(&&\)*\)\@<=&}\(}\)\@=/ contained
-syntax match efEscapeLineString /\m&u[0-9a-f]\{4}\|&x[0-9a-f]\{2}\|&[^ux]/ contained
-syntax match efEscapeTagData /\m&u[0-9a-f]\{4}\|&x[0-9a-f]\{2}\|&[^ux}]\|&}\(}\s*$\|}\s*#\)\@!/ contained
-syntax match efEscapeData /\m&u[0-9a-f]\{4}\|&x[0-9a-f]\{2}\|&[^ux}]\|&}\(}\s*$\)\@!/ contained
+syntax match efEscapeLineString /\m&u[0-9a-fA-F]\{4}\|&x[0-9a-fA-F]\{2}\|&u\[[0-9a-fA-F]\{-0,}\]\|&[^ux]/ contained
+syntax match efEscapeTagData /\m&u[0-9a-fA-F]\{4}\|&x[0-9a-fA-F]\{2}\|&u\[[0-9a-fA-F]\{-0,}\]\|&[^ux}]\|&}\(}\s*$\|}\s*#\)\@!/ contained
+syntax match efEscapeData /\m&u[0-9a-fA-F]\{4}\|&x[0-9a-fA-F]\{2}\|&u\[[0-9a-fA-F]\{-0,}\]\|&[^ux}]\|&}\(}\s*$\)\@!/ contained
 
 highlight def link efDataString String
 highlight def link efData PreProc
