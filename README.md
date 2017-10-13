@@ -1,10 +1,10 @@
 # EFML.vim
 
-EFML.vim adds EFML (*.ef, *.eft) syntax highlighting to Vim.
+EFML.vim is an EFML (*.ef, *.eft) syntax highlighter for Vim.
 
 ## What is EFML
 
-EFML (ef.js template language) is a template language for [ef.js](https://github.com/ClassicOldSong/ef.js).
+EFML (ef.js template language) is a template language for [ef.js](https://ef.js.org/).
 
 ## Installation
 

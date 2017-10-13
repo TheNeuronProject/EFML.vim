@@ -8,61 +8,74 @@ if exists("b:current_syntax")
 endif
 unlet! b:current_syntax
 
-syntax match efDataString /\m\(=\s*\)\@<=.\{-0,}\(}}\)\@=/ contained contains=efEscapeString
-syntax match efData /\m\(^.*\)\@<={{.\{-0,}}}\(.*$\)\@=/ contained contains=efDataString
-syntax match efAttrDataString /\m\(^\s*[#%][^=]\+=\s*{{[^=]\+=\s*\)\@<=.*\(}}\s*$\)\@=/ contained contains=efEscapeData
-syntax match efAttrData /\m\(^\s*[#%][^=]\+=\s*\)\@<={{.\+}}\s*$/ contained contains=efAttrDataString
-syntax match efAttrString /\m\(^\s*[#%][^=]\+=\s*\)\@<=.\+$/ contains=efAttrData,efEscapeLineString
-syntax match efTagAlias /\m\(^\s*>[^#]\+\)\@<=#.*$/
-syntax match efTagClassString /\m\(^\s*>[^.#]\+\.{{[^#=]\+=\s*\)\@<=[^#]*\(}}\)\@=/ contained contains=efEscapeTagData
-syntax match efTagClassData /\m\(^\s*>[^.#]\+\.\)\@<={{[^#]\{-0,}}}\(\(#.*\)\?$\)\@=/ contained contains=efTagClassString
-syntax match efTagClass /\m\(^\s*>[^#]\+\)\@<=\(\.[^#]\+\)\+/ contains=efTagClassData
-syntax match efTag /\m\(^\s*\)\@<=>[^.#]\+\(.*$\)\@=/
-syntax match efPoint /\m\(^\s*\)\@<=[-+].*$/
-syntax match efAttribute /\m\(^\s*\)\@<=#[^=]\+\(.*$\)\@=/
-syntax match efProperty /\m\(^\s*\)\@<=%[^=]\+\(.*$\)\@=/
-syntax match efEventFunc /\m\(^\s*@[^=]\+=\s*\)\@<=[^:]\+$/
-syntax match efEventFuncPlus /\m\(^\s*@[^=]\+=\s*\)\@<=[^:]\+\(:\)\@=/
-syntax match efEventDataString /\m\(^\s*@[^=]\+=\s*[^:]\+:\s*{{[^=]\+=\s*\)\@<=.*\(}}\s*$\)\@=/ contained contains=efEscapeData
-syntax match efEventData /\m\(^\s*@[^=]\+=\s*[^:]\+:\s*\)\@<={{.\+}}\s*$/ contained contains=efEventDataString
-syntax match efEventString /\m\(^\s*@[^=]\+=\s*[^:]\+:\s*\)\@<=.\+$/ contains=efEventData
-syntax match efEvent /\m\(^\s*\)\@<=@[^=]\+\(.*$\)\@=/
-syntax match efString /\m\(^\s*\)\@<=[\.].*$/ contains=efData,efEscapeString
-syntax match efComment /\m\(^\s*\)\@<=[^\t \.\-+>#%@].*$/
-syntax match efEscapeString /\m&u[0-9a-fA-F]\{4}\|&x[0-9a-fA-F]\{2}\|&u\[[0-9a-fA-F]\{-0,}\]\|&[^ux{}]\|&{\([^{]\|$\)\@=\|&}\([^}]\|$\)\@=/ contained
-syntax match efEscapeString /\m\(^.*{{\([^{]\|{[^{]\)*{\?}}\([^{]\|{[^{]\)*{\?\(&&\)*\)\@<=&{\({\([^}]\|}[^}]\)*{\?$\)\@=/ contained
-syntax match efEscapeString /\m\(^\([^{]\|{[^{]\)*{\?\(&&\)*\)\@<=&{\({\([^}]\|}[^}]\)*{\?$\)\@=/ contained
-syntax match efEscapeString /\m\(^.*{{\([^}]\|}[^}]\)*{\?\(&&\)*\)\@<=&{\({\)\@=/ contained
-syntax match efEscapeString /\m\(^.*{{\([^{]\|{[^{]\)*{\?}}\([^{]\|{[^{]\)*{\?\(&&\)*\)\@<=&}\(}\)\@=/ contained
-syntax match efEscapeString /\m\(^\([^{]\|{[^{]\)*{\?\(&&\)*\)\@<=&}\(}\)\@=/ contained
-syntax match efEscapeLineString /\m&u[0-9a-fA-F]\{4}\|&x[0-9a-fA-F]\{2}\|&u\[[0-9a-fA-F]\{-0,}\]\|&[^ux]/ contained
-syntax match efEscapeTagData /\m&u[0-9a-fA-F]\{4}\|&x[0-9a-fA-F]\{2}\|&u\[[0-9a-fA-F]\{-0,}\]\|&[^ux}]\|&}\(}\s*$\|}\s*#\)\@!/ contained
-syntax match efEscapeData /\m&u[0-9a-fA-F]\{4}\|&x[0-9a-fA-F]\{2}\|&u\[[0-9a-fA-F]\{-0,}\]\|&[^ux}]\|&}\(}\s*$\)\@!/ contained
+" >Tag
+syntax match efTagClassDefault /\v(\{\{[^=]+\=\s*)@<=.{-0,}(\}\})@=/ contained contains=efTagEscape
+syntax match efTagClassData /\v\{\{.{-0,}\}\}/ contained contains=efTagClassDefault
+syntax match efTagClass /\v(^\s*\>[^.#]+)@<=((\..*\{\{.*\}\}[^#]*)|(\.[^#]*)+)/ contained contains=efTagClassData,efTagEscape nextgroup=efTagClassRef
+syntax match efTagClassRef /\v\#.*$/ contained
+syntax match efTagRef /\v(^\s*\>[^.#]+)@<=\#.*$/
+syntax match efTag /\v(^\s*)@<=\>.+$/ contains=efTagClass,efTagRef
 
-highlight def link efDataString String
-highlight def link efData PreProc
-highlight def link efAttrDataString String
-highlight def link efAttrData Identifier
-highlight def link efAttrString String
-highlight def link efTagAlias Statement
-highlight def link efTagClassString String
-highlight def link efTagClassData PreProc
+" #Attribute
+syntax match efAttrValue /\v(^\s*\#[^=]+\=\s*)@<=.+$/ contains=efTextData,efTextEscape
+syntax match efAttr /\v(^\s*)@<=\#[^=]+(.*$)@=/
+
+" %Property
+syntax match efPropValue /\v(^\s*\%[^=]+\=\s*)@<=.+$/ contains=efTextData,efTextEscape
+syntax match efProp /\v(^\s*)@<=\%[^=]+(.*$)@=/
+
+" @Event
+syntax match efEventValue /\v(^\s*\@[^=]+\=[^:]+\:\s*)@<=.+$/ contains=efTextData,efTextEscape
+syntax match efEventFunc /\v(^\s*\@[^=]+\=\s*)@<=[^:]+$/
+syntax match efEventFunc /\v(^\s*\@[^=]+\=\s*)@<=[^:]+(\:)@=/
+syntax match efEvent /\v(^\s*)@<=\@[^=]+(.*$)@=/
+
+" +Node -Node
+syntax match efNode /\v(^\s*)@<=[-+].*$/
+
+" .Text
+syntax match efTextDefault /\v(\{\{[^=]+\=\s*)@<=.{-0,}(\}\})@=/ contained contains=efTextEscape
+syntax match efTextData /\v\{\{.{-0,}\}\}/ contained contains=efTextDefault
+syntax match efText /\v(^\s*)@<=\..*$/ contains=efTextData,efTextEscape
+
+" Comment
+syntax match efComment /\v(^\s*)@<=[^\t >.#%@+\-].*$/
+
+" &Escape
+syntax match efTextEscape /\v\&u[0-9a-fA-F]{4}|\&x[0-9a-fA-F]{2}|\&u\[[0-9a-fA-F]{-0,}\]|\&[bfnrtv0&]|\&\{([^{]|$)@=|\&\}([^}]|$)@=/ contained
+syntax match efTextEscape /\v(^.*\{\{([^{]|\{[^{])*\{?\}\}([^{]|\{[^{])*\{?(\&\&)*)@<=\&\{(\{([^}]|\}[^}])*\{?$)@=/ contained
+syntax match efTextEscape /\v(^([^{]|\{[^{])*\{?(\&\&)*)@<=\&\{(\{([^}]|\}[^}])*\{?$)@=/ contained
+syntax match efTextEscape /\v(^.*\{\{([^}]|\}[^}])*\{?(\&\&)*)@<=\&\{(\{)@=/ contained
+syntax match efTextEscape /\v(^.*\{\{([^{]|\{[^{])*\{?\}\}([^{]|\{[^{])*\{?(\&\&)*)@<=\&\}(\})@=/ contained
+syntax match efTextEscape /\v(^([^{]|\{[^{])*\{?(\&\&)*)@<=\&\}(\})@=/ contained
+
+syntax match efTagEscape /\v\&u[0-9a-fA-F]{4}|\&x[0-9a-fA-F]{2}|\&u\[[0-9a-fA-F]{-0,}\]|\&[bfnrtv0&]|\&\{([^{]|$)@=|\&\}([^}]|$)@=/ contained
+syntax match efTagEscape /\v(^.*\{\{([^{]|\{[^{])*\{?\}\}([^{]|\{[^{])*\{?(\&\&)*)@<=\&\{(\{([^}]|\}[^}])*\{?$)@=/ contained
+syntax match efTagEscape /\v(^([^{]|\{[^{])*\{?(\&\&)*)@<=\&\{(\{([^}]|\}[^}])*\{?$)@=/ contained
+syntax match efTagEscape /\v(^.*\{\{([^}]|\}[^}])*\{?(\&\&)*)@<=\&\{(\{)@=/ contained
+syntax match efTagEscape /\v(^.*\{\{([^{]|\{[^{])*\{?\}\}([^{]|\{[^{])*\{?(\&\&)*)@<=\&\}(\})@=/ contained
+syntax match efTagEscape /\v(^([^{]|\{[^{])*\{?(\&\&)*)@<=\&\}(\})@=/ contained
+
+" Define
+highlight def link efTagClassDefault Type
+highlight def link efTagClassData Special
 highlight def link efTagClass Type
+highlight def link efTagClassRef Statement
+highlight def link efTagRef Statement
 highlight def link efTag Identifier
-highlight def link efPoint Identifier
-highlight def link efAttribute Type
-highlight def link efProperty PreProc
-highlight def link efEventFunc Type
-highlight def link efEventFuncPlus Type
-highlight def link efEventDataString String
-highlight def link efEventData PreProc
-highlight def link efEventString String
+highlight def link efAttrValue String
+highlight def link efAttr Type
+highlight def link efPropValue String
+highlight def link efProp Special
+highlight def link efEventValue String
+highlight def link efEventFunc Special
 highlight def link efEvent Statement
-highlight def link efString String
+highlight def link efNode Constant
+highlight def link efTextDefault String
+highlight def link efTextData Identifier
+highlight def link efText String
 highlight def link efComment Comment
-highlight def link efEscapeString Statement
-highlight def link efEscapeLineString Statement
-highlight def link efEscapeTagData Statement
-highlight def link efEscapeData Statement
+highlight def link efTextEscape Statement
+highlight def link efTagEscape Constant
 
 let b:current_syntax = "efml"
