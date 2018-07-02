@@ -33,13 +33,13 @@ syntax match efEvent /\v(^\s*)@<=\@[^=]+(.*$)@=/
 " +Node -Node
 syntax match efNode /\v(^\s*)@<=[-+].*$/
 
-" .Text
+" .Text |Multiline Text
 syntax match efTextDefault /\v(\{\{[^=]+\=\s*)@<=.{-0,}(\}\})@=/ contained contains=efTextEscape
 syntax match efTextData /\v\{\{.{-0,}\}\}/ contained contains=efTextDefault
-syntax match efText /\v(^\s*)@<=\..*$/ contains=efTextData,efTextEscape
+syntax match efText /\v(^\s*)@<=[.|].*$/ contains=efTextData,efTextEscape
 
 " Comment
-syntax match efComment /\v(^\s*)@<=[^\t >.#%@+\-].*$/
+syntax match efComment /\v(^\s*)@<=[^\t >.|#%@+\-].*$/
 
 " &Escape
 syntax match efTextEscape /\v\&u[0-9a-fA-F]{4}|\&x[0-9a-fA-F]{2}|\&u\[[0-9a-fA-F]{-0,}\]|\&[bfnrtv0&]|\&\{([^{]|$)@=|\&\}([^}]|$)@=/ contained

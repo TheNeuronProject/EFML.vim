@@ -25,3 +25,13 @@ NeoBundle 'TheNeuronProject/EFML.vim'
 ```shell
 git clone https://github.com/TheNeuronProject/EFML.vim ~/.vim/bundle/EFML.vim
 ```
+
+## Screenshot
+
+![OneDark](https://i.loli.net/2018/07/02/5b3a120066865.png)
+
+EFML.vim, gVim, OneDark Color Scheme
+
+## Hmmmmmmmm...
+
+This plugin may be laggy in console version Vim.
