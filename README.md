@@ -26,15 +26,6 @@ NeoBundle 'TheNeuronProject/EFML.vim'
 git clone https://github.com/TheNeuronProject/EFML.vim ~/.vim/bundle/EFML.vim
 ```
 
-## Comment Toggling
-
-1. Install [NERD Commenter](https://github.com/scrooloose/nerdcommenter).
-2. Add this to your vimrc.
-   ```viml
-   let g:NERDCustomDelimiters = {'efml': {'left': '* ', 'leftAlt': '*'}}
-   ```
-3. Read the documentation of NERD Commenter to learn more.
-
 ## Screenshot
 
 ![OneDark](https://i.loli.net/2018/07/02/5b3a120066865.png)
