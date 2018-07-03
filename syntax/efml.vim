@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:     EFML
 " Maintainer:   deluxghost
-" Website:      https://github.com/deluxghost/EFML.vim/
+" Website:      https://github.com/TheNeuronProject/EFML.vim/
 
 if exists("b:current_syntax")
     finish
