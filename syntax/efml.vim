@@ -78,4 +78,15 @@ highlight def link efComment Comment
 highlight def link efTextEscape Statement
 highlight def link efTagEscape Constant
 
+" Commenter Config
+"  NERDCommenter
+if !exists("g:NERDCustomDelimiters")
+    let g:NERDCustomDelimiters = {}
+endif
+let g:NERDCustomDelimiters.efml = {'left': '* ', 'leftAlt': '*'}
+"  Commentary.vim
+setlocal commentstring=*\ %s
+"  TComment
+silent! call tcomment#type#Define('efml', '* %s')
+
 let b:current_syntax = "efml"
