@@ -20,6 +20,12 @@ Plugin 'TheNeuronProject/EFML.vim'
 NeoBundle 'TheNeuronProject/EFML.vim'
 ```
 
+### [Vim-Plug](https://github.com/junegunn/vim-plug)
+
+```viml
+Plug 'TheNeuronProject/EFML.vim'
+```
+
 ### [Pathogen](https://github.com/tpope/vim-pathogen)
 
 ```shell
