@@ -1,6 +1,6 @@
 # EFML.vim
 
-EFML.vim is an EFML (*.ef, *.eft) syntax highlighter for Vim.
+EFML.vim is an EFML syntax highlighter for Vim.
 
 ## What is EFML
 
